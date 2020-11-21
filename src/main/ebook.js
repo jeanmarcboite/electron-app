@@ -7,13 +7,15 @@ const importEbook = () => {
       properties: ['openFile', 'multiSelections'],
     })
     .then((rc) => {
-      const notification = {
-        title: 'Basic Notification',
-        body: JSON.stringify(rc),
-        timeoutType: 'default',
-      }
+      if (!rc.canceled) {
+        const notification = {
+          title: 'Open files',
+          body: JSON.stringify(rc.filePaths),
+          timeoutType: 'default',
+        }
 
-      new Notification(notification).show()
+        new Notification(notification).show()
+      }
     })
 }
 

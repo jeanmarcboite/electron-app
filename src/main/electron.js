@@ -1,8 +1,9 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, Menu, dialog, shell } = require('electron')
 const contextMenu = require('electron-context-menu')
 const path = require('path')
 const config = require('./config')
 const ipcmain = require('./ipcmain')
+const defaultMenu = require('electron-default-menu')
 
 const { importEbookMenuItem, ImportEbookMenuItem } = require('./ebook')
 
@@ -30,6 +31,18 @@ const createWindow = () => {
     const [width, height] = mainWindow.getSize()
     config.set({ width, height })
   })
+
+  // Get default menu template
+  const menu = defaultMenu(app, shell)
+
+  // Add custom menu
+  menu.splice(0, 0, {
+    label: 'File',
+    submenu: [ImportEbookMenuItem],
+  })
+
+  // Set application menu
+  Menu.setApplicationMenu(Menu.buildFromTemplate(menu))
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, '..', '..', 'public', 'index.html'))
