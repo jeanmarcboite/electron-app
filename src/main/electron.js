@@ -4,6 +4,8 @@ const path = require('path')
 const config = require('./config')
 const ipcmain = require('./ipcmain')
 
+const { importEbookMenuItem, ImportEbookMenuItem } = require('./ebook')
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   // eslint-disable-line global-require
@@ -55,6 +57,7 @@ contextMenu({
         )
       },
     },
+    ImportEbookMenuItem,
   ],
 })
 
