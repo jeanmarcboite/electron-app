@@ -1,9 +1,20 @@
 const { dialog } = require('electron')
+const { Notification } = require('electron')
 
 const importEbook = () => {
-  console.log(
-    dialog.showOpenDialog({ properties: ['openFile', 'multiSelections'] }),
-  )
+  dialog
+    .showOpenDialog({
+      properties: ['openFile', 'multiSelections'],
+    })
+    .then((rc) => {
+      const notification = {
+        title: 'Basic Notification',
+        body: JSON.stringify(rc),
+        timeoutType: 'default',
+      }
+
+      new Notification(notification).show()
+    })
 }
 
 const ImportEbookMenuItem = {
